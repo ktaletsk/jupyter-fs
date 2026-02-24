@@ -1,4 +1,5 @@
 #!/bin/bash
 python --version
 jupyter --version
+npm install -g pnpm
 pip install .
