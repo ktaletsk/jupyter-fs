@@ -1,5 +1,36 @@
 #!/bin/bash
+set -eux
+
 python --version
 jupyter --version
+
 npm install -g pnpm
 pip install .
+
+# Configure jupyter-fs as the contents manager
+jupyter server --generate-config || true
+cat > ~/.jupyter/jupyter_server_config.json <<'EOF'
+{
+  "ServerApp": {
+    "contents_manager_class": "jupyterfs.metamanager.MetaManager"
+  }
+}
+EOF
+
+# Pre-configure jupyter-fs with a local filesystem resource for the demo
+SETTINGS_DIR=$(jupyter lab path --json 2>/dev/null | python -c "import sys,json; print(json.load(sys.stdin)['settings'])" 2>/dev/null || echo "${HOME}/.jupyter/lab/user-settings")
+PLUGIN_DIR="${SETTINGS_DIR}/jupyter-fs"
+mkdir -p "${PLUGIN_DIR}"
+cat > "${PLUGIN_DIR}/plugin.jupyterlab-settings" <<'EOF'
+{
+  "resources": [
+    {
+      "name": "osfs-here",
+      "url": "osfs:///home/jovyan"
+    }
+  ],
+  "options": {
+    "verbose": true
+  }
+}
+EOF
