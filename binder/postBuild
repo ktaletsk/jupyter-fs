@@ -32,6 +32,7 @@ cat > "${PLUGIN_DIR}/plugin.jupyterlab-settings" <<'EOF'
   ],
   "options": {
     "verbose": true
-  }
+  },
+  "display_columns": ["size", "last_modified"]
 }
 EOF
