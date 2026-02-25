@@ -8,6 +8,7 @@ npm install -g pnpm
 pip install ".[fsspec]"
 
 # Configure jupyter-fs as the contents manager
+mkdir -p ~/.jupyter
 cat > ~/.jupyter/jupyter_server_config.json <<'EOF'
 {
   "ServerApp": {
