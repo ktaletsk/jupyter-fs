@@ -1,5 +1,36 @@
 #!/bin/bash
+set -eux
+
 python --version
 jupyter --version
+
 npm install -g pnpm
-pip install .
+pip install ".[fsspec]"
+
+mkdir -p ~/.jupyter
+cat > ~/.jupyter/jupyter_server_config.json <<'EOF'
+{
+  "ServerApp": {
+    "contents_manager_class": "jupyterfs.metamanager.MetaManager"
+  }
+}
+EOF
+
+SETTINGS_DIR="${HOME}/.jupyter/lab/user-settings"
+PLUGIN_DIR="${SETTINGS_DIR}/jupyter-fs"
+mkdir -p "${PLUGIN_DIR}"
+cat > "${PLUGIN_DIR}/plugin.jupyterlab-settings" <<'EOF'
+{
+  "resources": [
+    {
+      "name": "Home",
+      "url": "file:///home/jovyan",
+      "type": "fsspec"
+    }
+  ],
+  "options": {
+    "verbose": true
+  },
+  "display_columns": ["size", "last_modified"]
+}
+EOF
