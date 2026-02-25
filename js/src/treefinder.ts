@@ -706,10 +706,10 @@ export class TreeFinderSidebar extends Widget {
     this._filterBarEl.classList.toggle("jp-mod-active", newState);
     this.filterButton.pressed = newState;
     if (newState) {
-      const search = this._filterBarEl.querySelector("jp-search") as any;
+      const search = this._filterBarEl.querySelector("jp-search");
       search?.focus();
     } else {
-      const search = this._filterBarEl.querySelector("jp-search") as any;
+      const search = this._filterBarEl.querySelector("jp-search");
       if (search && search.value) {
         search.value = "";
         search.dispatchEvent(new Event("input"));
@@ -742,7 +742,7 @@ export class TreeFinderSidebar extends Widget {
   }
 
   private _reapplyFilter() {
-    const search = this._filterBarEl.querySelector("jp-search") as any;
+    const search = this._filterBarEl.querySelector("jp-search");
     const pattern = search?.value ?? "";
     const model = this.treefinder.model;
     if (model) {
